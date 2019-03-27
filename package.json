@@ -1,0 +1,34 @@
+{
+  "version": "0.0.1",
+  "keywords": [
+    "textlintrule"
+  ],
+  "main": "lib/index.js",
+  "files": [
+    "lib/",
+    "src/"
+  ],
+  "scripts": {
+    "test": "textlint-scripts test",
+    "build": "textlint-scripts build",
+    "prepublish": "npm run --if-present build"
+  },
+  "devDependencies": {
+    "textlint-scripts": "^1.2.4"
+  },
+  "name": "textlint-rule-ms-japanese-style-guide",
+  "description": "This is TEMPLATE REPOSITORY for creating textlint rule.",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/watahani/textlint-rule-ms-japanese-guide.git"
+  },
+  "author": "watahani",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/watahani/textlint-rule-ms-japanese-guide/issues"
+  },
+  "homepage": "https://github.com/watahani/textlint-rule-ms-japanese-guide#readme"
+}
