@@ -30,5 +30,6 @@
   "bugs": {
     "url": "https://github.com/watahani/textlint-rule-ms-japanese-guide/issues"
   },
-  "homepage": "https://github.com/watahani/textlint-rule-ms-japanese-guide#readme"
+  "homepage": "https://github.com/watahani/textlint-rule-ms-japanese-guide#readme",
+  "dependencies": {}
 }

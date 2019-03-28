@@ -7,7 +7,12 @@ const rule = require("../src/index");
 tester.run("rule", rule, {
     valid: [
         // no problem
-        "コンピューター"
+        "コンピューター",
+        "[大かっこの中身]",
+        "(小かっこの中身)",
+        "<大なり小なりの中身>",
+        "\"ダブルクォーテーションの中身\"",
+        "コロンの前はスペース: いらない？",
     ],
     invalid: [
         // single match
@@ -21,6 +26,17 @@ tester.run("rule", rule, {
                 }
             ]
         },
+        {
+            text: "Azure ADに登録済みデバイス一覧",
+            errors: [
+                {
+                    message: "スペースが必要です",
+                    line: 1,
+                    column: 7
+                }
+            ]
+        },
+
 //         // multiple match
 //         {
 //             text: `It has many bugs.
