@@ -5,10 +5,9 @@ module.exports = function(context, options = {}) {
     const {Syntax, RuleError, report, getSource} = context;
     return {
         [Syntax.Str](node){ // "Str" node
-            console.log(chouon)
             const text = getSource(node); // Get text
             chouon.forEach( c => {
-                const matches = new RegExp(c + "[^ー]", 'g' ).exec(text); // Found "bugs"
+                const matches = new RegExp(c + "[^ー$]", 'gm' ).exec(text); // Found "bugs"
                 if (!matches) {
                     return;
                 }
