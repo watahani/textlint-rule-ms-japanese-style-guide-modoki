@@ -15,6 +15,7 @@ tester.run("rule", rule, {
         "コロンの前はスペース: いらない？",
         "句読点の前後の Alphabet、1 byte。Char",
         "「Alphabet」",
+        "全角の ”double quote” は使えます",
     ],
     invalid: [
         // single match
