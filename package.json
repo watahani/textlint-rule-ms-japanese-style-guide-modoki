@@ -14,7 +14,7 @@
     "prepublish": "npm run --if-present build"
   },
   "devDependencies": {
-    "textlint-scripts": "^1.2.4"
+    "textlint-scripts": "^2.1.0"
   },
   "name": "textlint-rule-ms-japanese-style-guide-modoki",
   "description": "This is TEMPLATE REPOSITORY for creating textlint rule.",

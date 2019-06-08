@@ -13,6 +13,8 @@ tester.run("rule", rule, {
         "<大なり小なりの中身>",
         "\"ダブルクォーテーションの中身\"",
         "コロンの前はスペース: いらない？",
+        "句読点の前後の Alphabet、1 byte。Char",
+        "「Alphabet」",
     ],
     invalid: [
         // single match
