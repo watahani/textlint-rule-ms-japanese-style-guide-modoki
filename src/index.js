@@ -2,8 +2,8 @@
 const chouon = require('./chouon')
 
 const checkNoSpace = (text) => {
-    const noSpace_before = /[^、「a-zA-Z0-9!"#-'()*-\/:-@¥\[\]\\^_{-~\s]([a-zA-Z0-9!#-'(*-\/;<=?-@¥\[\\^_{-~])+?/gm
-    const noSpace_after = /([a-zA-Z0-9!#-')*-\/:;=-@¥\]\\^_{-~])+?[^、」a-zA-Z0-9!"#-'()*-\/:-@¥\[\]\\^_{-~\s]/gm
+    const noSpace_before = /[^、。「a-zA-Z0-9!"#-'()*-\/:-@¥\[\]\\^_{-~\s]([a-zA-Z0-9!#-'(*-\/;<=?-@¥\[\\^_{-~])+?/gm
+    const noSpace_after = /([a-zA-Z0-9!#-')*-\/:;=-@¥\]\\^_{-~])+?[^、。」a-zA-Z0-9!"#-'()*-\/:-@¥\[\]\\^_{-~\s]/gm
         
     const matches_b = noSpace_before.exec(text)
     const matches_a = noSpace_after.exec(text)
