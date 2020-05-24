@@ -317,7 +317,7 @@
     {
         "expect": "ガバナー",
         "wrong": "ガバナ",
-        "ignores": []
+        "ignores": ["ガバナンス"]
     },
     {
         "expect": "カプラー",
