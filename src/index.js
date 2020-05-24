@@ -1,50 +1,96 @@
 "use strict";
-const chouon = require('./chouon')
+const chouon = require("./chouon");
+import { matchCaptureGroupAll } from "match-index";
+import { RuleHelper } from "textlint-rule-helper";
 
-const checkNoSpace = (text) => {
-    const noSpace_before = /[^、。”「a-zA-Z0-9!"#-'()*-\/:-@¥\[\]\\^_{-~\s]([a-zA-Z0-9!#-'(*-\/;<=?-@¥\[\\^_{-~])+?/gm
-    const noSpace_after = /([a-zA-Z0-9!#-')*-\/:;=-@¥\]\\^_{-~])+?[^、。”」a-zA-Z0-9!"#-'()*-\/:-@¥\[\]\\^_{-~\s]/gm
-        
-    const matches_b = noSpace_before.exec(text)
-    const matches_a = noSpace_after.exec(text)
-    let results = []
-    if(matches_b) {
-        results.push({
-            message: "スペースが必要です",
-            index: matches_b.index
-        })
-    }
-    if(matches_a) {
-        results.push({
-            message: "スペースが必要です",
-            index: matches_a.index
-        })
-    }
-    return results
-}
+const reporter = (context, options = {}) => {
+  const { Syntax, RuleError, report, fixer, getSource } = context;
+  const helper = new RuleHelper();
+  const checkNoSpace = (node, text) => {
+    const noSpaceBefore = matchCaptureGroupAll(
+      text,
+      /[^、。”「a-zA-Z0-9!"#-'()*-\/:-@¥\[\]\\^_{-~\s]([a-zA-Z0-9!#-'(*-\/;<=?-@¥\[\\^_{-~])+?/
+    );
+    const noSpaceAfter = matchCaptureGroupAll(
+      text,
+      /([a-zA-Z0-9!#-')*-\/:;=-@¥\]\\^_{-~])+?[^、。”」a-zA-Z0-9!"#-'()*-\/:-@¥\[\]\\^_{-~\s]/
+    );
 
-module.exports = function(context, options = {}) {
-    const {Syntax, RuleError, report, getSource} = context;
-    return {
-        [Syntax.Str](node){ // "Str" node
-            const text = getSource(node); // Get text
-            chouon.forEach( c => {
-                const matches = new RegExp(c + "[^ー$]", 'gm' ).exec(text); // Found "bugs"
-                if (!matches) {
-                    return;
-                }
-                const indexOfBugs = matches.index;
-                const ruleError = new RuleError(`${c} に長音記号が必要です`, {
-                    index: indexOfBugs // padding of index
-                });
-                report(node, ruleError);                
-            });
-            
-            const results = checkNoSpace(text)
-            results.forEach( r => {
-                const ruleError = new RuleError(r.message, {index: r.index})
-                report(node, ruleError)
-            })
-        }
-    }
+    const reportMatch = (match, padding) => {
+      const index = match.index + padding;
+      const replacer = fixer.insertTextAfterRange([index, index + 1] , ' ');
+      report(
+        node,
+        new RuleError("スペースが必要です", {
+          index: index,
+          fix: replacer,
+        })
+      );
+    };
+    noSpaceBefore.forEach((v) => reportMatch(v, -1));
+    noSpaceAfter.forEach((v) => reportMatch(v, 0));
+  };
+
+  return {
+    [Syntax.Str](node) {
+      const isIgnoredParentNode = helper.isChildNode(node, [
+        Syntax.Header,
+        Syntax.Link,
+        Syntax.Image,
+        Syntax.BlockQuote,
+        Syntax.Emphasis,
+      ]);
+      if (isIgnoredParentNode) {
+        return;
+      }
+      // "Str" node
+      const text = getSource(node); // Get text
+      chouon.forEach((c) => {
+        const wrongMatches = matchCaptureGroupAll(
+          text,
+          new RegExp(`(${c.wrong}[^ー$])`)
+        );
+
+        const isMatchedIgnoreWord = (wrongWordRange, ignoreWordRange) => {
+          return (
+            ignoreWordRange[0] <= wrongWordRange[0] &&
+            wrongWordRange[1] <= ignoreWordRange[1]
+          );
+        };
+
+        wrongMatches.forEach((match) => {
+          const indexOfBugs = match.index;
+          const wordRange = [indexOfBugs, indexOfBugs + c.wrong.length];
+
+          const matchedIgnoreWords = c.ignores.some((ignore) => {
+            // match at least one ignore word
+            return matchCaptureGroupAll(text, new RegExp(`(${ignore})`)).some(
+              (match) => {
+                const ignoreWordRange = [
+                  match.index,
+                  match.index + ignore.length,
+                ];
+                return isMatchedIgnoreWord(wordRange, ignoreWordRange);
+              }
+            );
+          });
+          if (matchedIgnoreWords) {
+            return;
+          }
+          const ruleError = new RuleError(`${c.wrong} に長音記号が必要です`, {
+            index: indexOfBugs, // padding of index
+            fix: fixer.replaceTextRange(wordRange, c.expect),
+          });
+          report(node, ruleError);
+        });
+      });
+
+      checkNoSpace(node, text);
+    },
+  };
+};
+
+module.exports = {
+  linter: reporter,
+  fixer: reporter,
 };

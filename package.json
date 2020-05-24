@@ -1,5 +1,5 @@
 {
-  "version": "0.0.7",
+  "version": "0.0.8",
   "keywords": [
     "textlintrule"
   ],
@@ -14,7 +14,8 @@
     "prepublish": "npm run --if-present build"
   },
   "devDependencies": {
-    "textlint-scripts": "^2.1.0"
+    "textlint-scripts": "^3.0.0",
+    "textlint-tester": "^5.1.15"
   },
   "name": "textlint-rule-ms-japanese-style-guide-modoki",
   "description": "This is TEMPLATE REPOSITORY for creating textlint rule.",
@@ -31,5 +32,8 @@
     "url": "https://github.com/watahani/textlint-rule-ms-japanese-guide/issues"
   },
   "homepage": "https://github.com/watahani/textlint-rule-ms-japanese-guide#readme",
-  "dependencies": {}
+  "dependencies": {
+    "match-index": "^1.0.3",
+    "textlint-rule-helper": "^2.1.1"
+  }
 }
