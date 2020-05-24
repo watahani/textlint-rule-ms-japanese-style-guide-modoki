@@ -1,1 +1,1 @@
-module.exports = require('./chouon.json')
+module.exports = require('../src/chouon.json')

@@ -17,6 +17,10 @@ tester.run("rule", rule, {
         "「Alphabet」",
         "全角の ”double quote” は使えます",
         "アドバイザーはアドバイザリー契約が必要",
+        "カギカッコ「Azure」は OK",
+        "全角の ”Office 365” や",
+        "全角のシングル クォーテーション ‘Microsoft’ も利用可能"
+
     ],
     invalid: [
         // single match

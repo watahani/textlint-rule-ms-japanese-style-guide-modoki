@@ -9,11 +9,11 @@ const reporter = (context, options = {}) => {
   const checkNoSpace = (node, text) => {
     const noSpaceBefore = matchCaptureGroupAll(
       text,
-      /[^、。”「a-zA-Z0-9!"#-'()*-\/:-@¥\[\]\\^_{-~\s]([a-zA-Z0-9!#-'(*-\/;<=?-@¥\[\\^_{-~])+?/
+      /[^、。”‘「a-zA-Z0-9!"#-'()*-\/:-@¥\[\]\\^_{-~\s]([a-zA-Z0-9!#-'(*-\/;<=?-@¥\[\\^_{-~])+?/
     );
     const noSpaceAfter = matchCaptureGroupAll(
       text,
-      /([a-zA-Z0-9!#-')*-\/:;=-@¥\]\\^_{-~])+?[^、。”」a-zA-Z0-9!"#-'()*-\/:-@¥\[\]\\^_{-~\s]/
+      /([a-zA-Z0-9!#-')*-\/:;=-@¥\]\\^_{-~])+?[^、。”’」a-zA-Z0-9!"#-'()*-\/:-@¥\[\]\\^_{-~\s]/
     );
 
     const reportMatch = (match, padding) => {
