@@ -20,10 +20,20 @@ tester.run("rule", rule, {
         "カギカッコ「Azure」は OK",
         "全角の ”Office 365” や",
         "全角のシングル クォーテーション ‘Microsoft’ も利用可能"
-
     ],
     invalid: [
         // single match
+        {
+            text: "UPN が user012457@contoso.onmicrosoft.comのユーザーの UPN が user01@contoso.com に自動変更されます",
+            output: "UPN が user012457@contoso.onmicrosoft.com のユーザーの UPN が user01@contoso.com に自動変更されます",
+            errors: [
+                {
+                    message: "スペースが必要です",
+                    line: 1,
+                    column: 42
+                }
+            ],
+        },
         {
             text: "更新プログラムを適用後、コンピュータを再起動してください。",
             output: "更新プログラムを適用後、コンピューターを再起動してください。",
